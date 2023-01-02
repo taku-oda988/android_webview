@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.view.KeyEvent
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,5 +49,17 @@ private class MyWebViewClient : WebViewClient() {
             return false
         }
         return true
+    }
+
+    override fun onReceivedHttpError(
+        view: WebView?,
+        request: WebResourceRequest?,
+        errorResponse: WebResourceResponse?
+    ) {
+        super.onReceivedHttpError(view, request, errorResponse)
+        if(503 == errorResponse!!.statusCode)
+        {
+            view!!.reload()
+        }
     }
 }
